@@ -20,8 +20,7 @@ $(document).ready(function (e) {
       url: API_URL + "login",
       data: JSON.stringify(user),
       contentType: "application/json",
-      dataType: "json",
-      //success: onLoginSuccess
+      dataType: "json"
     })
     .done(function(data, status, jqXHR) {
       localStorage.setItem("user", JSON.stringify(data.data));
