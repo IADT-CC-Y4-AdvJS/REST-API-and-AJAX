@@ -17,5 +17,6 @@ To clone this repository and get the application running, do the following steps
    * By default for LAMP, the root account has a username 'root' and password 'root'.
 7. Run `php artisan key:generate`
 8. Run `php artisan migrate`
-9. Run `php artisan serve`
-10. Go to localhost:8000
+9. Run `php artisan db:seed`
+10. Run `php artisan serve`
+11. Go to localhost:8000
