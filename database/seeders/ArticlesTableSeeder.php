@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use App\Models\Article;
 
 class ArticlesTableSeeder extends Seeder
@@ -12,17 +13,18 @@ class ArticlesTableSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
-    {
-      Article::truncate();
+    public function run() {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        Article::truncate();
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
-      $faker = \Faker\Factory::create();
+        $faker = \Faker\Factory::create();
 
-      for ($i = 0; $i < 50; $i++) {
-          Article::create([
-              'title' => $faker->sentence,
-              'body' => $faker->paragraph,
-          ]);
-      }
+        for ($i = 0; $i < 50; $i++) {
+            Article::create([
+                'title' => $faker->sentence,
+                'body' => $faker->paragraph,
+            ]);
+        }
     }
 }
