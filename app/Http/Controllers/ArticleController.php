@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use App\Models\Article;
 
 class ArticleController extends Controller
 {
     public function index() {
-        return Article::all()->load('category');
+        return Article::all()->load('category', 'user');
     }
 
     public function show(Article $article) {
@@ -26,6 +28,7 @@ class ArticleController extends Controller
         $article->body = $request->input('body');
         $article->category_id = $request->input('category_id');
         $article->user_id = Auth::id();
+        $article->save();
 
         return response()->json($article, 201);
     }
@@ -50,8 +53,11 @@ class ArticleController extends Controller
             return response()->json([
                 'message' => 'Access denied'], 403);
         }
-        $article->delete();
-
+        DB::transaction(function() use ($article) {
+            $article->comments()->delete();
+            $article->delete();
+        });
+        
         return response()->json(null, 204);
     }
 }

@@ -13,7 +13,7 @@ class CommentController extends Controller
     }
 
     public function show(Comment $comment) {
-        return $comment;
+        return $comment->load('user');;
     }
 
     public function store(Request $request) {
