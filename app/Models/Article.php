@@ -9,10 +9,14 @@ class Article extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'body'];
+    protected $fillable = ['title', 'body', 'category_id'];
 
     public function category() {
         return $this->belongsTo('App\Models\Category');
+    }
+
+    public function user() {
+        return $this->belongsTo('App\Models\User');
     }
     
     public function comments() {

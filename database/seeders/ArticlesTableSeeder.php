@@ -6,6 +6,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use App\Models\Article;
 use App\Models\Category;
+use App\Models\User;
 
 class ArticlesTableSeeder extends Seeder
 {
@@ -25,7 +26,8 @@ class ArticlesTableSeeder extends Seeder
             Article::create([
                 'title' => $faker->sentence,
                 'body' => $faker->paragraph,
-                'category_id' => Category::all()->random()->id
+                'category_id' => Category::all()->random()->id,
+                'user_id' => User::where('name', '!=', 'administrator')->get()->random()->id
             ]);
         }
     }

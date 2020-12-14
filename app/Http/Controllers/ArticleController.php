@@ -8,34 +8,48 @@ use App\Models\Article;
 class ArticleController extends Controller
 {
     public function index() {
-        return Article::all();
+        return Article::all()->load('category');
     }
 
     public function show(Article $article) {
-        return $article->load('comments');
+        return $article->load('category', 'comments', 'user');
     }
 
     public function store(Request $request) {
         $request->validate([
             'title' => 'required|string',
-            'body' => 'required|string'
+            'body' => 'required|string',
+            'category_id' => 'required|exists:categories,id'
         ]);
-        $article = Article::create($request->all());
+        $article = new Article();
+        $article->title = $request->input('title');
+        $article->body = $request->input('body');
+        $article->category_id = $request->input('category_id');
+        $article->user_id = Auth::id();
 
         return response()->json($article, 201);
     }
 
     public function update(Request $request, Article $article) {
-      $request->validate([
-          'title' => 'required|string',
-          'body' => 'required|string'
-      ]);
-      $article->update($request->all());
+        if ($article->user_id != Auth::id()) {
+            return response()->json([
+                'message' => 'Access denied'], 403);
+        }
+        $request->validate([
+            'title' => 'required|string',
+            'body' => 'required|string',
+            'category_id' => 'required|exists:categories,id'
+        ]);
+        $article->update($request->all());
 
         return response()->json($article, 200);
     }
 
     public function delete(Request $request, Article $article) {
+        if ($article->user_id != Auth::id()) {
+            return response()->json([
+                'message' => 'Access denied'], 403);
+        }
         $article->delete();
 
         return response()->json(null, 204);
