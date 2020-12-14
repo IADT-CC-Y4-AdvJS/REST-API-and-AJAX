@@ -24,7 +24,7 @@ class CommentsTableSeeder extends Seeder
 
         for ($i = 0; $i < 250; $i++) {
             $c = new Comment();
-            $c->body = $faker->paragraph;
+            $c->body = $faker->text(255);;
             $c->user_id = User::where('name', '!=', 'administrator')->get()->random()->id;
             $c->article_id = Article::all()->random()->id;
             $c->save();

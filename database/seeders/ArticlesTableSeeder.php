@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use App\Models\Article;
+use App\Models\Category;
 
 class ArticlesTableSeeder extends Seeder
 {
@@ -24,6 +25,7 @@ class ArticlesTableSeeder extends Seeder
             Article::create([
                 'title' => $faker->sentence,
                 'body' => $faker->paragraph,
+                'category_id' => Category::all()->random()->id
             ]);
         }
     }
