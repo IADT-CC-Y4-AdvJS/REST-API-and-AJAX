@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CommentController;
 
 /*
@@ -25,6 +26,9 @@ Route::group(['middleware' => 'guest:api'], function() {
 
 Route::group(['middleware' => 'auth:api'], function() {
   Route::post('logout', [LoginController::class, 'logout']);
+
+  Route::get('categories', [CategoryController::class, 'index']);
+  Route::get('categories/{category}', [CategoryController::class, 'show']);
 
   Route::get('articles', [ArticleController::class, 'index']);
   Route::get('articles/{article}', [ArticleController::class, 'show']);
