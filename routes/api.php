@@ -18,6 +18,11 @@ use App\Http\Controllers\CommentController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::get('articles', [ArticleController::class, 'index']);
+Route::get('articles/{article}', [ArticleController::class, 'show']);
+
+Route::get('categories', [CategoryController::class, 'index']);
+Route::get('categories/{category}', [CategoryController::class, 'show']);
 
 Route::group(['middleware' => 'guest:api'], function() {
   Route::post('login', [LoginController::class, 'login']);
@@ -27,11 +32,11 @@ Route::group(['middleware' => 'guest:api'], function() {
 Route::group(['middleware' => 'auth:api'], function() {
   Route::post('logout', [LoginController::class, 'logout']);
 
-  Route::get('categories', [CategoryController::class, 'index']);
-  Route::get('categories/{category}', [CategoryController::class, 'show']);
+  // Route::get('categories', [CategoryController::class, 'index']);
+  // Route::get('categories/{category}', [CategoryController::class, 'show']);
 
-  Route::get('articles', [ArticleController::class, 'index']);
-  Route::get('articles/{article}', [ArticleController::class, 'show']);
+  //Route::get('articles', [ArticleController::class, 'index']);
+  //Route::get('articles/{article}', [ArticleController::class, 'show']);
   Route::post('articles', [ArticleController::class, 'store']);
   Route::put('articles/{article}', [ArticleController::class, 'update']);
   Route::delete('articles/{article}', [ArticleController::class, 'delete']);
